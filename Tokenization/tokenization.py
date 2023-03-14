@@ -105,9 +105,9 @@ def word_precise(modul_output, num_correct):
     :return: 准确率
     """
     # 模型输出数量
-    modul_output_number = len(modul_output)
+    model_output_number = len(modul_output)
 
-    precise = num_correct / modul_output_number
+    precise = num_correct / model_output_number
 
     return precise
 
@@ -139,10 +139,6 @@ def reversed_max_match(text):
 
 
 def evaluate(text_manually_tokenized, text_output):
-    """
-    :param text_manually_tokenized: 手动分词的文本
-    :param text_output: 自动分词的文本
-    """
     num_correct = word_correct(text_manually_tokenized, text_output)
 
     r = word_recall(text_manually_tokenized, num_correct)
@@ -150,13 +146,13 @@ def evaluate(text_manually_tokenized, text_output):
 
     print("R=", r)
     print("P=", p)
-    print("F1=", (p + r) / 2 * p * r)
+    print("F1=", (2 * p * r) / (p + r))
 
 
 def main():
     text = "申奥成功，深得民意。办好奥运会，不仅是北京市民的一件大事，也是全中国人民的一件大事。申奥成功，我们已经付出很多辛劳和汗水；承办，还需要做更多扎扎实实的工作。比照举办奥运会的要求，我们还有许多差距，但我们有信心有能力博采众长，弥补不足。我们将信守承诺，认真细致地做好各项筹备工作，建设一流场馆，营造一流环境，提供一流服务；我们要在全社会继续加强社会主义精神文明建设，特别是要在北京市民中深入开展文明礼貌教育，树立良好道德风尚，强化法制意识，提高市民综合素质，展现时代精神风貌，在国际社会面前展示“新北京、新奥运”的魅力"
 
-    text_manually_tokenized = "申奥/成功/，/深得/民意/。/办好/奥运会/，/不仅/是/北京/市民/的/一/件/大事/，/也是/全/中国/人民/的/一件/大事/。/\
+    text_manually_tokenized_sample = "申奥/成功/，/深得/民意/。/办好/奥运会/，/不仅/是/北京/市民/的/一/件/大事/，/也是/全/中国/人民/的/一件/大事/。/\
     申奥/成功/，/我们/已经/付出/很多/辛劳/和/汗水/；/承办/，/还/需要/做/更多/扎扎实实/的/工作/。/比照/举办/奥运会/的/要求/，/\
     我们/还有/许多/差距/，/但/我们/有/信心/有/能力/博采众长/，/弥补/不足/。/我们/将/信守承诺/，/认真/细致/地/做好/各项/筹备/工作/，/\
     建设/一流/场馆/，/营造/一流环境/，/提供/一流服务/；/我们/要/在/全/社会/继续/加强/社会主义/精神文明/建设/，/\
@@ -164,9 +160,9 @@ def main():
     展现/时代精神/风貌/，/在/国际社会/面前/展示/“/新/北京/、/新/奥运/”/的/魅力"
 
     print("正向最大匹配：")
-    evaluate(text_manually_tokenized,max_match(text))
+    evaluate(text_manually_tokenized_sample, max_match(text))
     print("逆向最大匹配：")
-    evaluate(text_manually_tokenized,reversed_max_match(text))
+    evaluate(text_manually_tokenized_sample, reversed_max_match(text))
 
 
 if __name__ == "__main__":
