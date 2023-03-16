@@ -76,7 +76,7 @@ class MilitaryGraph:
 
     def __init__(self):
         cur_dir = '/'.join(os.path.abspath(__file__).split('/')[:-1])
-        self.data_path = os.path.join(cur_dir, 'data/military1.json')
+        self.data_path = os.path.join(cur_dir, 'data/military.json')
 
     '''读取文件'''
 
@@ -183,8 +183,19 @@ class MilitaryGraph:
 
             if '活动范围' in data_json:
                 vessels_activity_area = data_json['活动范围']
-                vessels_activity_areas.append(vessels_activity_area)
-                rels_militaries_vessels_activity_area.append([military, vessels_activity_area])
+                if '，' in vessels_activity_area:
+                    vessels_activity_area_l = vessels_activity_area.split('，')
+                    for item in vessels_activity_area_l:
+                        vessels_activity_areas.append(item)
+                        rels_militaries_vessels_activity_area.append([military, item])
+                elif '、' in vessels_activity_area:
+                    vessels_activity_area_l = vessels_activity_area.split('，')
+                    for item in vessels_activity_area_l:
+                        vessels_activity_areas.append(item)
+                        rels_militaries_vessels_activity_area.append([military, item])
+                else:
+                    vessels_activity_areas.append(vessels_activity_area)
+                    rels_militaries_vessels_activity_area.append([military, vessels_activity_area])
 
             if '底盘类型' in data_json:
                 armored_car_chassis_type = data_json['底盘类型']
@@ -306,7 +317,7 @@ class MilitaryGraph:
             rels_militaries_vessels_activity_area, rels_militaries_pneumatic_layout, \
             rels_militaries_cannon_calibre, rels_militaries_cannon_type = self.read_nodes()
         a = self.create_relationship('Military', 'Producing_country', rels_militaries_producing_countries,
-                                     'producing_county', '产国')
+                                     'producing_country', '产国')
         b = self.create_relationship('Producing_country', 'Producer', rels_producing_countries_producers,
                                      'producer_in_country', '制造商所属国家')
         c = self.create_relationship('Producing_country', 'Research_and_develop_organization',
@@ -387,10 +398,10 @@ if __name__ == '__main__':
         relationships.append(Relationship(dicts[n], r, dicts[m], name=rr))
         s += 1
 
-    # print(f"匹配所用时间：{time() - t0:.1f}秒")
-    # print('数据正在导入数据库......')
-    #
-    # graph.create(Subgraph(nodes=graph_nodes, relationships=relationships))
-    #
-    # print('\r知识图谱数据库创建完成 !!')
-    # print(f"总体所用时间：{time() - t0:.1f}秒")
+    print(f"匹配所用时间：{time() - t0:.1f}秒")
+    print('数据正在导入数据库......')
+
+    graph.create(Subgraph(nodes=graph_nodes, relationships=relationships))
+
+    print('\r知识图谱数据库创建完成 !!')
+    print(f"总体所用时间：{time() - t0:.1f}秒")

@@ -417,9 +417,7 @@ def test():
     for i in range(cnt):
         military_attributes_dict[military_attributes[i]] = military_attributes_in_en[i]
     print(military_attributes_dict['名称'])
-
-
-if __name__ == '__main__':
+def tt():
     i = "match(p:Military),(q:Producing_country) where p.name='C-11/20/37”湾流“'and q.name='美国' create (p)-[rel:producing_county{name:'产国'}]->(q)"
     i1 = i.split("p.name=")[1].split("and q.name=")[0]
     i2 = i1[1:-1]
@@ -440,4 +438,11 @@ if __name__ == '__main__':
     print(rr)
     print(r)
 
+
+if __name__ == '__main__':
+    a = "东海，南海"
+    if "，" in a:
+        b = a.split("，")
+        for i in b:
+            print(i)
 
