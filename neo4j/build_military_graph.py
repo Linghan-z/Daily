@@ -99,12 +99,12 @@ class MilitaryGraph:
 
         # 实体之间的关系
         rels_militaries_producing_countries = []  # 武器-产国
-        rels_producing_countries_producers = []  # 生产商-产国
+        rels_producers_in_producing_countries = []  # 生产商-产国
         rels_country_research_and_develop_organizations = []  # 研发组织-国家
         rels_militaries_research_and_develop_organizations = []  # 武器-研发组织
         rels_militaries_producers = []  # 武器-生产商
         rels_militaries_categories = []  # 武器-类别
-        rels_classes_categories = []  # 大类-具体类别
+        rels_categories_classes = []  # 大类-具体类别
         rels_militaries_armored_car_chassis_type = []  # 武器-装甲车底盘类型（装甲车特有）
         rels_militaries_vessels_activity_area = []  # 武器-船的活动范围（船特有）
         rels_militaries_pneumatic_layout = []  # 武器-气动布局（飞行器）
@@ -137,7 +137,7 @@ class MilitaryGraph:
                     if [country,
                         research_and_develop_organization] not in rels_country_research_and_develop_organizations:
                         rels_country_research_and_develop_organizations.append(
-                            [country, research_and_develop_organization])
+                            [research_and_develop_organization, country])
 
             if '研发厂商' in data_json:
                 research_and_develop_organization = data_json['研发厂商']
@@ -148,7 +148,7 @@ class MilitaryGraph:
                     if [country,
                         research_and_develop_organization] not in rels_country_research_and_develop_organizations:
                         rels_country_research_and_develop_organizations.append(
-                            [country, research_and_develop_organization])
+                            [research_and_develop_organization, country])
 
             if '大类' in data_json:
                 big_class = data_json['大类']
@@ -160,8 +160,8 @@ class MilitaryGraph:
                 rels_militaries_categories.append([military, category])
                 if '大类' in data_json:
                     big_class = data_json['大类']
-                    if [big_class, category] not in rels_classes_categories:
-                        rels_classes_categories.append([big_class, category])
+                    if [big_class, category] not in rels_categories_classes:
+                        rels_categories_classes.append([category, big_class])
 
             if '制造商' in data_json:
                 producer = data_json['制造商']
@@ -169,8 +169,8 @@ class MilitaryGraph:
                 rels_militaries_producers.append([military, producer])
                 if '产国' in data_json:
                     country = data_json['产国']
-                    if [country, producer] not in rels_producing_countries_producers:
-                        rels_producing_countries_producers.append([country, producer])
+                    if [country, producer] not in rels_producers_in_producing_countries:
+                        rels_producers_in_producing_countries.append([producer, country])
 
             if '制造厂' in data_json:
                 producer = data_json['制造厂']
@@ -178,8 +178,8 @@ class MilitaryGraph:
                 rels_militaries_producers.append([military, producer])
                 if '产国' in data_json:
                     country = data_json['产国']
-                    if [country, producer] not in rels_producing_countries_producers:
-                        rels_producing_countries_producers.append([country, producer])
+                    if [country, producer] not in rels_producers_in_producing_countries:
+                        rels_producers_in_producing_countries.append([producer, country])
 
             if '活动范围' in data_json:
                 vessels_activity_area = data_json['活动范围']
@@ -223,9 +223,9 @@ class MilitaryGraph:
             producers), set(classes), set(categories), set(armored_car_chassis_types), set(
             vessels_activity_areas), set(pneumatic_layouts), set(cannon_calibres), set(
             cannon_types), militaries_infos, rels_militaries_producing_countries, \
-            rels_producing_countries_producers, rels_country_research_and_develop_organizations, \
+            rels_producers_in_producing_countries, rels_country_research_and_develop_organizations, \
             rels_militaries_research_and_develop_organizations, rels_militaries_producers, \
-            rels_militaries_categories, rels_classes_categories, rels_militaries_armored_car_chassis_type, \
+            rels_militaries_categories, rels_categories_classes, rels_militaries_armored_car_chassis_type, \
             rels_militaries_vessels_activity_area, rels_militaries_pneumatic_layout, \
             rels_militaries_cannon_calibre, rels_militaries_cannon_type
 
@@ -264,13 +264,13 @@ class MilitaryGraph:
         Militaries, Producing_countries, Research_and_develop_organizations, Producers, Classes, Categories, \
             Armored_car_chassis_types, Vessels_activity_areas, Pneumatic_layouts, Cannon_calibres, Cannon_types, \
             militaries_infos, rels_militaries_producing_countries, \
-            rels_producing_countries_producers, rels_country_research_and_develop_organizations, \
+            rels_producers_in_producing_countries, rels_country_research_and_develop_organizations, \
             rels_militaries_research_and_develop_organizations, rels_militaries_producers, \
-            rels_militaries_categories, rels_classes_categories, rels_militaries_armored_car_chassis_type, \
+            rels_militaries_categories, rels_categories_classes, rels_militaries_armored_car_chassis_type, \
             rels_militaries_vessels_activity_area, rels_militaries_pneumatic_layout, \
             rels_militaries_cannon_calibre, rels_militaries_cannon_type = self.read_nodes()
         a = self.create_military_node(militaries_infos)
-        b = self.create_node('Producing_country', Producing_countries)
+        b = self.create_node('Country', Producing_countries)
         c = self.create_node('Research_and_develop_organization', Research_and_develop_organizations)
         d = self.create_node('Producer', Producers)
         e = self.create_node('Class', Classes)
@@ -311,35 +311,37 @@ class MilitaryGraph:
         Militaries, Producing_countries, Research_and_develop_organizations, Producers, Classes, Categories, \
             Armored_car_chassis_types, Vessels_activity_areas, Pneumatic_layouts, Cannon_calibres, Cannon_types, \
             militaries_infos, rels_militaries_producing_countries, \
-            rels_producing_countries_producers, rels_country_research_and_develop_organizations, \
+            rels_producers_in_producing_countries, rels_country_research_and_develop_organizations, \
             rels_militaries_research_and_develop_organizations, rels_militaries_producers, \
-            rels_militaries_categories, rels_classes_categories, rels_militaries_armored_car_chassis_type, \
+            rels_militaries_categories, rels_categories_classes, rels_militaries_armored_car_chassis_type, \
             rels_militaries_vessels_activity_area, rels_militaries_pneumatic_layout, \
             rels_militaries_cannon_calibre, rels_militaries_cannon_type = self.read_nodes()
-        a = self.create_relationship('Military', 'Producing_country', rels_militaries_producing_countries,
-                                     'producing_country', '产国')
-        b = self.create_relationship('Producing_country', 'Producer', rels_producing_countries_producers,
-                                     'producer_in_country', '制造商所属国家')
-        c = self.create_relationship('Producing_country', 'Research_and_develop_organization',
+        a = self.create_relationship('Military', 'Country', rels_militaries_producing_countries,
+                                     'producing_country', '产国')  # Military --> Country
+        b = self.create_relationship('Producer', 'Country', rels_producers_in_producing_countries,
+                                     'producer_in_country', '制造商所属国家')  # Producer --> Country
+        c = self.create_relationship('Research_and_develop_organization', 'Country',
                                      rels_country_research_and_develop_organizations, 'R&D_organization_in_country',
-                                     '制造商所属国家')
+                                     '研发厂商所属国家')  # R&D Organization --> Country
         d = self.create_relationship('Military', 'Research_and_develop_organization',
                                      rels_militaries_research_and_develop_organizations, 'Military-R&D_organization',
-                                     '研发组织')
+                                     '研发组织')  # Military --> R&D Organization
         e = self.create_relationship('Military', 'Producer', rels_militaries_producers, 'Military-Producer',
-                                     '制造厂')
-        f = self.create_relationship('Military', 'Category', rels_militaries_categories, 'Category', '具体类别')
-        g = self.create_relationship('Class', 'Category', rels_classes_categories, 'Class-category', '大类-小类')
+                                     '制造厂')  # Military --> Producer
+        f = self.create_relationship('Military', 'Category', rels_militaries_categories, 'Category',
+                                     '具体类别')  # Military --> Category
+        g = self.create_relationship('Category', 'Class', rels_categories_classes, 'Category-Class',
+                                     '大类-小类')  # Category --> Class
         h = self.create_relationship('Military', 'Armored_car_chassis_type', rels_militaries_armored_car_chassis_type,
-                                     'chassis_type', '装甲车的底盘类型')
+                                     'chassis_type', '装甲车的底盘类型')  # Military --> Armored_car_chassis_type
         i = self.create_relationship('Military', 'Vessels_activity_area', rels_militaries_vessels_activity_area,
-                                     'activity_area', '轮船的活动范围')
+                                     'activity_area', '轮船的活动范围')  # Military --> Vessels_activity_area
         j = self.create_relationship('Military', 'Pneumatic_layout', rels_militaries_pneumatic_layout,
-                                     'pneumatic_layout', '飞行器的气动布局')
+                                     'pneumatic_layout', '飞行器的气动布局')  # Military --> Pneumatic_layout
         k = self.create_relationship('Military', 'Cannon_calibre', rels_militaries_cannon_calibre, 'cannon_calibre',
-                                     '火炮的口径')
+                                     '火炮的口径')  # Military --> Cannon_calibre
         l = self.create_relationship('Military', 'Cannon_type', rels_militaries_cannon_type, 'cannon_type',
-                                     '火炮的类型')
+                                     '火炮的类型')  # Military --> Cannon_type
 
         return a + b + c + d + e + f + g + h + i + j + k + l
 
