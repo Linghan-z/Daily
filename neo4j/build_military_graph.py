@@ -378,7 +378,7 @@ if __name__ == '__main__':
     graph_rels = handler.create_graph_rels()
     print(f"匹配所用时间：{time() - t0:.1f}秒")
     print('正在创建图谱 . . . . . .', end='')
-    graph = Graph("http://0.0.0.0:7474/", username="neo4j", password="123456", name="Military")
+    graph = Graph("bolt://localhost:7687", username="neo4j", password="neo4j", name="Military")
     # 版本 20201.
     dicts = {}
     for i in graph_nodes:
