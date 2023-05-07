@@ -14,7 +14,7 @@ def read_json(str):
     for data in open(data_path, encoding='utf8'):
         data_json = json.loads(data)
         if str in data_json:
-            entity.append(data_json[str]+ '\n')
+            entity.append('      - ' + data_json[str] + '\n')
     return set(entity)
 
 

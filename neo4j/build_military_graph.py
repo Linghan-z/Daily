@@ -85,10 +85,8 @@ class MilitaryGraph:
         producing_countries = []  # 产国
         research_and_develop_organizations = []  # 研发单位/研发厂商
         producers = []  # 生产单位/生产厂
-
         classes = []  # 大类
         categories = []  # 类别
-
         armored_car_chassis_types = []  # 装甲车底盘类型——装甲车
         vessels_activity_areas = []  # 船的活动范围——船
         pneumatic_layouts = []  # 气动布局——飞行器
@@ -378,7 +376,8 @@ if __name__ == '__main__':
     graph_rels = handler.create_graph_rels()
     print(f"匹配所用时间：{time() - t0:.1f}秒")
     print('正在创建图谱 . . . . . .', end='')
-    graph = Graph("bolt://localhost:7687", username="neo4j", password="neo4j", name="Military")
+    # graph = Graph("bolt://localhost:7687", username="neo4j", password="neo4j", name="Military")
+    graph = Graph("bolt://localhost:7687", username="neo4j", password="neo4j")
     # 版本 20201.
     dicts = {}
     for i in graph_nodes:

@@ -253,8 +253,77 @@ def aa():
     print(list(map(char2num, num2)))
 
 
+def dic_en_zh():
+    military_attributes_in_en = ['name', 'origin_country', 'img_url', 'introduction', 'first_fly_time',
+                                 'R&D_organization',
+                                 'pneumatic_layout', 'num_of_engine', 'speed', 'attention_degree', 'crew_num',
+                                 'flight_long', 'wings_width', 'flight_height', 'engine', 'max_speed', 'max_voyage',
+                                 'class', 'categories', 'serve_time', 'producer', 'net_weight', 'max_fly_weight',
+                                 'retire_time', 'rotor_diameter', 'machine_gun', 'mount_point', 'built-in_weapon',
+                                 'war_field_machine_type', 'W-3W', 'build_time', 'full_tonnage_row', 'authorized',
+                                 'captain', 'modeled_breath', 'load_displacement', 'cruising_distance',
+                                 'navigational_speed', 'manufactory', 'launch_time', 'status', 'same_type',
+                                 'activity_range', 'prior_type', 'latter_type', 'self-sustaining', 'missile',
+                                 'cannon', 'modify_time', 'water_displacement', 'firing_control_device', 'main_cannon',
+                                 'submersible_depth', 'before_modify', 'complete_time', 'equipment', 'Armed',
+                                 'military_uniform', '1935', 'anti-ship_missile', 'ship-to-ship_missile',
+                                 'new_build', 'anti-aircraft-weapon', 'under_water_displacement', 'weapon_equipment',
+                                 'torpedo', 'mine', 'arms', 'shooter', 'firearms', 'manufacturer', 'produce_year',
+                                 'amount', 'calibres',
+                                 'gun_length', 'gun_weight', 'magazine_capacity',
+                                 'war_participation', 'effective_range', 'shoot_performance', 'shoot_speed',
+                                 'knife_length', 'blade_length', 'blade_width', 'knife_weight', 'R&D_manufactures',
+                                 'born_time', 'chassis_type', 'crew_num', 'vehicle_length', 'width', 'height',
+                                 'weight_in_war', 'max_speed', 'max_route', 'gross_weight', 'barrel_length',
+                                 'max_range', 'muzzle_velocity', 'R&D_time', 'editor_rating', 'version', 'tital_length',
+                                 'development_time', 'shoot_range', 'bullet_length',
+                                 'bullet_diameter',
+                                 'bullet_weight', 'guidance_sys', 'fuze', 'launch_date', 'launch_place', 'length',
+                                 'center_diameter', 'first_orbital_launch', 'orbit', 'longitude', 'latitude',
+                                 'carrier_rocket', 'processor', 'orbiting_satellites', 'charge_type', 'total_weight',
+                                 'fuze_device', 'tail_device', 'power_device']
+    military_attributes = ['名称', '产国', '图片', '简介', '首飞时间', '研发单位', '气动布局', '发动机数量', '飞行速度',
+                           '关注度', '乘员',
+                           '机长', '翼展', '机高', '发动机', '最大飞行速度', '最大航程', '大类', '类型', '服役时间',
+                           '生产单位',
+                           '空重',
+                           '最大起飞重量', '退役时间', '旋翼直径', '机炮', '挂载点', '内置武器', '战地机型', 'W-3W',
+                           '建造时间',
+                           '满排吨位', '编制',
+                           '舰长', '型宽', '满载排水量', '续航距离', '航速', '制造厂', '下水时间', '现状', '同型',
+                           '活动范围',
+                           '前型', '次型',
+                           '自持力', '导弹', '火炮', '改装时', '水上排水量', '射控装置', '主炮', '潜航深度', '改装前',
+                           '竣工时',
+                           '装备', '武备',
+                           '兵装', '1935年', '反舰导弹', '舰舰导弹', '新造时', '防空兵器', '水下排水量', '武器装备',
+                           '鱼雷',
+                           '水雷', '武装',
+                           '枪械', '枪炮', '制造商', '生产年限', '数量', '口径', '全枪长', '全枪重', '弹匣容弹量',
+                           '参战情况',
+                           '有效射程', '发射性能',
+                           '战斗射速', '刀长', '刀锋长度', '刀锋宽度', '刀重', '研发厂商', '诞生时间', '底盘类型',
+                           '乘员与载员',
+                           '车长', '宽度',
+                           '高度', '战斗全重', '最大速度', '最大行程', '总重', '炮管长度', '最大射程', '炮口初速',
+                           '研发时间',
+                           '编辑评分', '型号',
+                           '全长', '研制时间', '射程', '弹长', '弹径', '弹重', '制导系统', '引信', '发射日期',
+                           '发射地点', '长度',
+                           '中心直径',
+                           '首次轨道发射', '轨道', '纬度', '经度', '运载火箭', '处理器', '轨道卫星', '装药类型', '全重',
+                           '引信装置', '尾翼装置',
+                           '动力装置']
+    dic = {}
+    f = open('./dic.json', 'a', encoding='utf-8')
+    for i in range(len(military_attributes)):
+        dic[military_attributes_in_en[i]] = military_attributes[i]
+    for i in range(len(military_attributes)):
+        print(dic)
+
+
 def main():
-    aa()
+    dic_en_zh()
 
 
 if __name__ == '__main__':
