@@ -5,6 +5,7 @@
 # @Author  : zlhhh
 # @Description :
 import numpy as np
+import pandas as pd
 
 
 def euclidean_distance(x, y):
@@ -45,24 +46,56 @@ def calculation(x, y):
           "\n cosine_similarity: ", cosine_similarity(x, y))
 
 
-def main():
-    x = [1.4, 1.6]
-    # x1 = [1.5, 1.7]
-    # x2 = [2, 1.9]
-    # x3 = [1.6, 1.8]
-    # x4 = [1.2, 1.5]
-    # x5 = [1.5, 1.0]
-    y = [[1.5, 1.7], [2, 1.9], [1.6, 1.8], [1.2, 1.5], [1.5, 1.0]]
-    z = []
-    for item in y:
-        # calculation(x, item)
+def min_max_scaler(data):
+    scaler = (data - data.min()) / (data.max() - data.min())
+    return scaler
 
-        z.append(norm(item))
-    # print(z)
-    x_norm = norm(x)
-    print(x_norm)
-    for item in z:
-        print(euclidean_distance(x_norm, item))
+
+# 标准差标准化
+def standard_scaler(data):
+    print(data.std(ddof=0))
+    data = (data - data.mean()) / data.std(ddof=0)
+    print(data)
+    return data
+
+def standard_scaler_mean_abs_dev(data):
+    mean = data.mean()
+    mad = np.mean(np.abs(data - mean))
+    return (data - mean)/mad
+    # data = (data - data.mean())/np.mean(np.abs(data - mean))
+
+# 小数定标规范化
+def decimal_scaler(data):
+    data = data / 10 ** np.ceil(np.log10(data.abs().max()))
+    return data
+
+def main():
+    # x = [1.4, 1.6]
+    # # x1 = [1.5, 1.7]
+    # # x2 = [2, 1.9]
+    # # x3 = [1.6, 1.8]
+    # # x4 = [1.2, 1.5]
+    # # x5 = [1.5, 1.0]
+    # y = [[1.5, 1.7], [2, 1.9], [1.6, 1.8], [1.2, 1.5], [1.5, 1.0]]
+    # z = []
+    # for item in y:
+    #     # calculation(x, item)
+    #
+    #     z.append(norm(item))
+    # # print(z)
+    # x_norm = norm(x)
+    # print(x_norm)
+    # for item in z:
+    #     print(euclidean_distance(x_norm, item))
+
+    data = [200, 300, 400, 600, 1000]
+    ser1 = pd.Series(data)
+    # print(ser1)
+    # print(min_max_scaler(ser1))
+    # print(standard_scaler(ser1))
+    print(decimal_scaler(ser1))
+    # print(standard_scaler_mean_abs_dev(ser1))
+
 
 
 if __name__ == '__main__':
