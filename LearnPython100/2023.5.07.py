@@ -58,16 +58,19 @@ def standard_scaler(data):
     print(data)
     return data
 
+
 def standard_scaler_mean_abs_dev(data):
     mean = data.mean()
     mad = np.mean(np.abs(data - mean))
-    return (data - mean)/mad
+    return (data - mean) / mad
     # data = (data - data.mean())/np.mean(np.abs(data - mean))
+
 
 # 小数定标规范化
 def decimal_scaler(data):
     data = data / 10 ** np.ceil(np.log10(data.abs().max()))
     return data
+
 
 def main():
     # x = [1.4, 1.6]
@@ -97,6 +100,81 @@ def main():
     # print(standard_scaler_mean_abs_dev(ser1))
 
 
-
 if __name__ == '__main__':
     main()
+
+# class Count:
+#     def __init__(self, name, count):
+#         self.name = name
+#         self.count = count
+#
+# schema = {...}  # 数据集结构定义，例如 {"name": str, "age": int, "city": str}
+# data = [...]  # 数据集，例如 [{"name": "Alice", "age": 25, "city": "New York"}, {...}]
+# count_ary = []  # 用于保存属性的不同值计数
+#
+# def count_distinct(attribute):
+#     distinct_values = set()
+#     for record in data:
+#         distinct_values.add(record[attribute])
+#     return len(distinct_values)
+#
+# for attribute in schema:
+#     distinct_count = count_distinct(attribute)
+#     count_obj = Count(attribute, distinct_count)
+#     count_ary.append(count_obj)
+#
+# # 按count升序对ary []进行排序；
+# count_ary.sort(key=lambda x: x.count)
+#
+# concept_hierarchy = []
+# for count_obj in count_ary:
+#     # 生成概念层次结构节点
+#     concept_hierarchy.append(count_obj.name)
+
+# 用于生成概念层次结构的数值属性
+concept_attb = ""
+
+
+# 表示概念层次结构（作为值的有序列表）
+class Concept:
+    def __init__(self, name, min, max):
+        self.name = name
+        self.min = min
+        self.max = max
+        self.mean = 0
+        self.sum = 0
+        self.count = 0
+
+
+concept_hierarchy = []
+
+# 用户指定的最小数据值、最大数据值、箱的宽度
+range_min = 0
+range_max = 100
+step = 10
+j = 0
+
+# 初始化概念层次结构数组
+for i in range(range_min, range_max, step):
+    concept = Concept("level_" + str(j), i, i + step - 1)
+    concept_hierarchy.append(concept)
+    j += 1
+
+# 必要时初始化最终最大值
+if i + step - 1 >= range_max:
+    concept = Concept("level_" + str(j), i + step - 1, range_max)
+    concept_hierarchy.append(concept)
+
+# 通过增加适当的总和和计数值，将每个值分配给箱
+for tuple_T in task_relevant_data_set:
+    k = 0
+    while tuple_T[concept_attb] > concept_hierarchy[k].max:
+        k += 1
+    concept_hierarchy[k].sum += tuple_T[concept_attb]
+    concept_hierarchy[k].count += 1
+
+# 计算用于表示每个级别值的箱度量
+# 在概念层次结构中
+for concept in concept_hierarchy:
+    if concept.count != 0:
+        concept.mean = concept.sum / concept.count
