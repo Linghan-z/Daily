@@ -67,6 +67,7 @@ def generate_domain_sentences(filename):
 
     return sentences
 
+
 def generate_ip_sentences(filename):
     sentences = []
     with open(filename, 'r') as csvfile:
@@ -86,6 +87,7 @@ def generate_ip_sentences(filename):
 
     return sentences
 
+
 def generate_sha256_sentences(filename):
     sentences = []
     with open(filename, 'r') as csvfile:
@@ -94,53 +96,107 @@ def generate_sha256_sentences(filename):
         for row in reader:
             entity = row[0]
             sentence = [
-                f"      - [{entity}](sha256)是[什么](attribute)",
-                f"      - [{entity}](sha256)的[值](attribute)",
-                f"      - [{entity}](sha256)的[哈希值](attribute)",
-                f"      - [{entity}](sha256)是[什么类型文件](attribute)",
-                f"      - [{entity}](sha256)是[什么文件](attribute)",
-                f"      - [什么](attribute)是[{entity}](sha256)",
+                f"      - [{entity}](organization)攻击了哪些行业",
+                f"      - [{entity}](organization)针对哪些行业",
+                f"      - [{entity}](organization)主要攻击哪些行业",
+                f"      - 哪些行业被[{entity}](organization)攻击",
+                f"      - 给我列举一些[{entity}](organization)攻击的行业",
             ]
             sentences.extend(sentence)
 
     return sentences
 
+
+def generate_industry_sentences(filename):
+    sentences = []
+    with open(filename, 'r') as csvfile:
+        reader = csv.reader(csvfile)
+        next(reader)
+        for row in reader:
+            entity = row[0]
+            sentence = [
+                f"      - 哪些组织攻击了[{entity}](industry)",
+                f"      - 有哪些组织攻击[{entity}](industry)业",
+                f"      - [{entity}](industry)被哪些组织攻击",
+                f"      - [{entity}](industry)被哪些组织攻击过",
+                f"      - 给我列举一些攻击[{entity}](industry)的组织",
+            ]
+            sentences.extend(sentence)
+
+    return sentences
+
+
+def generate_industry_sentences_reversed(filename):
+    sentences = []
+    with open(filename, 'r') as csvfile:
+        reader = csv.reader(csvfile)
+        next(reader)
+        for row in reader:
+            entity = row[0]
+            sentence = [
+                f"      - [{entity}](organization)攻击了哪些行业",
+                f"      - [{entity}](organization)针对哪些行业",
+                f"      - [{entity}](organization)主要攻击哪些行业",
+                f"      - 哪些行业被[{entity}](organization)攻击",
+                f"      - 给我列举一些[{entity}](organization)攻击的行业",
+            ]
+            sentences.extend(sentence)
+
+    return sentences
+
+#
+# filename = '../neo4j/data/ctiic/vertex_organization.csv'
+# sentences = generate_organization_sentences(filename)
+#
+# # 将生成的句子输出到txt文件
+# with open('../neo4j/data/ctiic/yaml/organization.txt', 'w', encoding='utf-8') as file:
+#     for sentence in sentences:
+#         file.write(sentence + '\n')
+#
+# filename = '../neo4j/data/ctiic/vertex_attacktype.csv'
+# sentences = generate_attacktype_sentences(filename)
+#
+# # 将生成的句子输出到txt文件
+# with open('../neo4j/data/ctiic/yaml/attacktype.txt', 'w', encoding='utf-8') as file:
+#     for sentence in sentences:
+#         file.write(sentence + '\n')
+#
+# filename = '../neo4j/data/ctiic/vertex_domain.csv'
+# sentences = generate_domain_sentences(filename)
+#
+# # 将生成的句子输出到txt文件
+# with open('../neo4j/data/ctiic/yaml/domain.txt', 'w', encoding='utf-8') as file:
+#     for sentence in sentences:
+#         file.write(sentence + '\n')
+#
+# filename = '../neo4j/data/ctiic/vertex_ip.csv'
+# sentences = generate_ip_sentences(filename)
+#
+# # 将生成的句子输出到txt文件
+# with open('../neo4j/data/ctiic/yaml/ip.txt', 'w', encoding='utf-8') as file:
+#     for sentence in sentences:
+#         file.write(sentence + '\n')
+#
+# filename = '../neo4j/data/ctiic/vertex_sha256.csv'
+# sentences = generate_sha256_sentences(filename)
+#
+# # 将生成的句子输出到txt文件
+# with open('../neo4j/data/ctiic/yaml/sha256.txt', 'w', encoding='utf-8') as file:
+#     for sentence in sentences:
+#         file.write(sentence + '\n')
+
+# filename = '../neo4j/data/ctiic/vertex_industry.csv'
+# sentences = generate_industry_sentences(filename)
+#
+# # 将生成的句子输出到txt文件
+# with open('../neo4j/data/ctiic/yaml/industry.txt', 'w', encoding='utf-8') as file:
+#     for sentence in sentences:
+#         file.write(sentence + '\n')
 filename = '../neo4j/data/ctiic/vertex_organization.csv'
-sentences = generate_organization_sentences(filename)
+sentences = generate_industry_sentences_reversed(filename)
 
 # 将生成的句子输出到txt文件
-with open('../neo4j/data/ctiic/yaml/organization.txt', 'w', encoding='utf-8') as file:
+with open('../neo4j/data/ctiic/yaml/industry_reversed.txt', 'w', encoding='utf-8') as file:
     for sentence in sentences:
         file.write(sentence + '\n')
 
-filename = '../neo4j/data/ctiic/vertex_attacktype.csv'
-sentences = generate_attacktype_sentences(filename)
-
-# 将生成的句子输出到txt文件
-with open('../neo4j/data/ctiic/yaml/attacktype.txt', 'w', encoding='utf-8') as file:
-    for sentence in sentences:
-        file.write(sentence + '\n')
-
-filename = '../neo4j/data/ctiic/vertex_domain.csv'
-sentences = generate_domain_sentences(filename)
-
-# 将生成的句子输出到txt文件
-with open('../neo4j/data/ctiic/yaml/domain.txt', 'w', encoding='utf-8') as file:
-    for sentence in sentences:
-        file.write(sentence + '\n')
-
-filename = '../neo4j/data/ctiic/vertex_ip.csv'
-sentences = generate_ip_sentences(filename)
-
-# 将生成的句子输出到txt文件
-with open('../neo4j/data/ctiic/yaml/ip.txt', 'w', encoding='utf-8') as file:
-    for sentence in sentences:
-        file.write(sentence + '\n')
-
-filename = '../neo4j/data/ctiic/vertex_sha256.csv'
-sentences = generate_sha256_sentences(filename)
-
-# 将生成的句子输出到txt文件
-with open('../neo4j/data/ctiic/yaml/sha256.txt', 'w', encoding='utf-8') as file:
-    for sentence in sentences:
-        file.write(sentence + '\n')
